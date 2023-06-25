@@ -1550,8 +1550,16 @@ class JemOutput
 			}
 			$output .= '<meta itemprop="startDate" content="'.$content.'" />';
 
-			if (JemHelper::isValidDate($dateEnd)) {
+			if (JemHelper::isValidDate($dateEnd) && JemHelper::isValidDate($dateStart)) {
 				$content = self::formatdate($dateEnd, $formatD);
+
+				if ($showTime && $timeEnd) {
+					$content .= 'T'.self::formattime($timeEnd, $formatT, false);
+				}
+				$output .= '<meta itemprop="endDate" content="'.$content.'" />';
+			}
+			elseif (JemHelper::isValidDate($dateStart) && !JemHelper::isValidDate($dateEnd)) {
+				$content = self::formatdate($dateStart, $formatD);
 
 				if ($showTime && $timeEnd) {
 					$content .= 'T'.self::formattime($timeEnd, $formatT, false);
