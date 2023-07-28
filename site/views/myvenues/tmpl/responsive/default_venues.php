@@ -119,15 +119,15 @@ use Joomla\CMS\Language\Text;
     </div>    
   </div>
 
-	<ul class="eventlist">
+	<ul class="eventlist jem-myvenues">
 		<?php if (count((array)$this->venues) == 0) : ?>
 			<li class="jem-event"><?php echo Text::_('COM_JEM_NO_VENUES'); ?></li>
 		<?php else :?>
 			<?php foreach ($this->venues as $i => $row) : ?>
         <?php if (!empty($row->featured)) :   ?>
-          <li class="jem-event jem-list-row jem-small-list jem-featured event-id<?php echo $row->id.$this->params->get('pageclass_sfx'); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
+          <li class="jem-event jem-list-row jem-small-list jem-featured event-id<?php echo $row->id.$this->params->get('pageclass_sfx') . ' venue_id' . $this->escape($row->id); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
 				<?php else : ?>
-          <li class="jem-event jem-list-row jem-small-list jem-odd<?php echo ($i % 2) . $this->params->get('pageclass_sfx'); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
+          <li class="jem-event jem-list-row jem-small-list jem-odd<?php echo ($i % 2) . $this->params->get('pageclass_sfx'). ' venue_id' . $this->escape($row->id); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
 				<?php endif; ?>  
 
             <?php if (empty($this->print) && $this->permissions->canPublishVenue) : ?>
