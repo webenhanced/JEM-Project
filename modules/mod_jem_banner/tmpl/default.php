@@ -34,12 +34,11 @@ if ($flyer_link_type == 1) {
 </style>
 
 <div class="jemmodulebanner<?php echo $params->get('moduleclass_sfx')?>" id="jemmodulebanner">
-<?php ?>
 	<div class="eventset" summary="mod_jem_banner">
 	<?php $i = count($list); ?>
 	<?php if ($i > 0) : ?>
 		<?php foreach ($list as $item) : ?>
-
+		<div class="event_id<?php echo $item->eventid; ?>">
 			<h2 class="event-title">
 			<?php if ($item->eventlink) : ?>
 				<a href="<?php echo $item->eventlink; ?>" title="<?php echo $item->fulltitle; ?>"><?php echo $item->title; ?></a>
@@ -174,6 +173,7 @@ if ($flyer_link_type == 1) {
 			<?php if (--$i > 0) : /* no hr after last entry */ ?>
 			<div class="hr"><hr /></div>
 			<?php endif; ?>
+			</div>
 		<?php endforeach; ?>
 	<?php else : ?>
 		<?php echo Text::_('MOD_JEM_BANNER_NO_EVENTS'); ?>
