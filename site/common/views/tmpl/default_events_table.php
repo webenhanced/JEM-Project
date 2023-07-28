@@ -110,7 +110,7 @@ use Joomla\CMS\Language\Text;
 					<?php if (!empty($row->featured)) : ?>
 					<tr class="featured featured<?php echo $row->id.$this->params->get('pageclass_sfx'); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
 					<?php else : ?>
-					<tr class="sectiontableentry<?php echo ($odd + 1) . $this->params->get('pageclass_sfx'); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
+					<tr class="sectiontableentry<?php echo ($odd + 1) . $this->params->get('pageclass_sfx') . ' event_id' . $this->escape($row->id); ?>" itemscope="itemscope" itemtype="https://schema.org/Event">
 					<?php endif; ?>
 
 						<?php if ($this->jemsettings->showeventimage == 1) : ?>
