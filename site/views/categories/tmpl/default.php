@@ -29,7 +29,8 @@ use Joomla\CMS\Language\Text;
 	<div class="clr"></div>
 
 	<?php foreach ($this->rows as $row) : ?>
-		<h2 class="jem cat<?php echo $row->id; ?>">
+	<div class="jem catid<?php echo $row->id; ?>">
+		<h2>
 			<?php echo JHtml::_('link', JRoute::_($row->linktarget), $this->escape($row->catname)); ?>
 		</h2>
 
@@ -80,6 +81,7 @@ use Joomla\CMS\Language\Text;
 				echo $this->loadTemplate('table');
 			}
 		?>
+		</div>
 	<?php endforeach; ?>
 
 	<!--pagination-->
