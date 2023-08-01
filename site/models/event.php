@@ -743,9 +743,8 @@ class JemModelEvent extends ItemModel
 		// IP
 		$uip = $jemsettings->storeip ? JemHelper::retrieveIP() : false;
 
-
 		if(empty($errMsg)){
-			$result = $this->_doRegister($eventId, $uid, $uip, $status, $places, $comment, $errMsg, $regid);
+		$result = $this->_doRegister($eventId, $uid, $uip, $status, $places, $comment, $errMsg, $regid);
 		}
 		if (!$result && !empty($errMsg)) {
 			$this->setError($errMsg);

@@ -436,4 +436,6 @@ if ($params->get('access-view')) { /* This will show nothing otherwise - ??? */ 
 </div>
 
 <?php }
+
+echo JemOutput::lightbox();
 ?>

@@ -145,7 +145,7 @@ use Joomla\CMS\Language\Text;
 	} ?>
 </fieldset>
 <!-- RECURRENCE END -->
-<hr>
+<hr />
 <!-- CONTACT START -->
 <fieldset class="panelform"  style="margin:0">
     <legend><?php echo Text::_('COM_JEM_EDITEVENT_FIELD_CONTACT'); ?></legend>
@@ -155,7 +155,7 @@ use Joomla\CMS\Language\Text;
     </dl>
 </fieldset>
 <!-- CONTACT END -->
-<hr>
+<hr />
 <!-- REGISTRATION START -->
 <fieldset class="" style="margin:0">
     <legend><?php echo Text::_('COM_JEM_EVENT_REGISTRATION_LEGEND'); ?></legend>
@@ -171,6 +171,8 @@ use Joomla\CMS\Language\Text;
                 <dt><?php echo $this->form->getLabel('registra'); ?></dt>
                 <dd><?php echo $this->form->getInput('registra'); ?></dd>
 			<?php endif; ?>
+			</dl>
+			<dl class="adminformlist jem-dl jem-dl-rest">
 			<?php if ($this->jemsettings->regallowinvitation == 1) : ?>
                 <dt><?php echo $this->form->getLabel('reginvitedonly'); ?></dt>
                 <dd><?php echo $this->form->getInput('reginvitedonly'); ?></dd>
