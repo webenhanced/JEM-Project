@@ -86,7 +86,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 		$detaillink = Route::_(JemHelperRoute::getEventRoute($row->slug));
 		$eventid = $this->escape($row->id);
 
-
 		//initialize variables
 		$multicatname = '';
 		$colorpic = '';
