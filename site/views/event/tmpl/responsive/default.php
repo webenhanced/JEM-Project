@@ -261,7 +261,7 @@ if ($params->get('access-view')) { /* This will show nothing otherwise - ??? */ 
 	<p></p>
 	<hr class="jem-hr">
 
-	<div itemprop="location" itemscope="itemscope" itemtype="https://schema.org/Place">
+	<div itemprop="location" itemscope="itemscope" itemtype="https://schema.org/Place" class="venue_id<?php echo $this->escape($this->item->id); ?>">
     <meta itemprop="name" content="<?php echo $this->escape($this->item->venue); ?>" />
 		<?php $itemid = $this->item ? $this->item->id : 0 ; ?>
 		<h2 class="jem-location">
