@@ -1,10 +1,10 @@
 <?php
 /**
- * @version 4.0.1-dev1
- * @package JEM
- * @copyright (C) 2013-2023 joomlaeventmanager.net
- * @copyright (C) 2005-2009 Christoph Lukes
- * @license https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
+ * @version    4.1.0
+ * @package    JEM
+ * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2005-2009 Christoph Lukes
+ * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  *
  * @todo add check if CB does exists and if so perform action
  */
@@ -151,7 +151,7 @@ $linkreg = 'index.php?option=com_jem&amp;view=attendees&amp;id='.$this->item->id
 					// no communitycomponent is set so only show the username
 					echo '<span class="username">' . $register->name . '</span>' . $registedplaces;
 				endif;
-        
+
         echo '</li>';
 			// end loop through attendees
 			endforeach;
@@ -189,7 +189,7 @@ $linkreg = 'index.php?option=com_jem&amp;view=attendees&amp;id='.$this->item->id
                     $returnUrl = $uri->toString();
                     $urlLogin = 'index.php?option=com_users&view=login&return=' . base64_encode($returnUrl); ?>
                     <button class="btn btn-warning" onclick="location.href='<?php echo $uri->root() . $urlLogin; ?>'"
-                            type="button"><?php echo Text::_('COM_JEM_LOGIN_FOR_REGISTER'); ?></button>$returnUrl  = JURI::getInstance()->toString();
+                            type="button"><?php echo Text::_('COM_JEM_LOGIN_FOR_REGISTER'); ?></button>
 
 					<?php //insert Breezing Form hack here
 					/*<input class="btn btn-secondary" type="button" value="<?php echo Text::_('COM_JEM_SIGNUPHERE_AS_GUEST'); ?>" onClick="window.location='/index.php?option=com_breezingforms&view=form&Itemid=6089&event=<?php echo $this->item->title; ?>&date=<?php echo $this->item->dates ?>&conemail=<?php echo $this->item->conemail ?>';"/>

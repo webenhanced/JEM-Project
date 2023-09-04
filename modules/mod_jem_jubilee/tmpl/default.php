@@ -1,11 +1,11 @@
 <?php
 /**
- * @version 4.0.1-dev1
- * @package JEM
+ * @version    4.1.0
+ * @package    JEM
  * @subpackage JEM Jubilee Module
- * @copyright (C) 2014-2023 joomlaeventmanager.net
- * @copyright (C) 2005-2009 Christoph Lukes
- * @license https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
+ * @copyright  (C) 2014-2023 joomlaeventmanager.net
+ * @copyright  (C) 2005-2009 Christoph Lukes
+ * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
 
 defined('_JEXEC') or die;
@@ -86,9 +86,10 @@ if ($flyer_link_type == 1) {
 				<?php if (($showflyer == 1) && !empty($item->eventimage)) : ?>
 				<div>
 					<div class="banner-jem">
-						<a href="<?php echo ($flyer_link_type == 2) ? $item->eventlink : $item->eventimageorig; ?>" rel="<?php echo $modal;?>" class="jubilee-flyerimage" title="<?php echo ($flyer_link_type == 2) ? $item->fulltitle : Text::_('COM_JEM_CLICK_TO_ENLARGE'); ?>" data-title="<?php echo $item->title; ?>">
+					<?php if ($flyer_link_type != 3) : ?>
+						<a href="<?php echo ($flyer_link_type == 2) ? $item->eventlink : $item->eventimageorig; ?>" rel="<?php echo $modal;?>" class="jubilee-flyerimage" title="<?php echo ($flyer_link_type == 2) ? $item->fulltitle : Text::_('COM_JEM_CLICK_TO_ENLARGE'); ?>" data-title="<?php echo $item->title; ?>"><?php endif; ?>
 								<img class="float_right <?php echo 'image-preview2'; ?>" src="<?php echo $item->eventimageorig; ?>" alt="<?php echo $item->title; ?>" />
-							</a>
+							<?php if ($flyer_link_type != 3) { echo '</a>'; } ?>
 						</div>
 					</div>
 				<div class="clr"></div>

@@ -1,10 +1,10 @@
 <?php
 /**
- * @version 4.0.1-dev1
- * @package JEM
- * @copyright (C) 2013-2023 joomlaeventmanager.net
- * @copyright (C) 2005-2009 Christoph Lukes
- * @license https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
+ * @version    4.1.0
+ * @package    JEM
+ * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2005-2009 Christoph Lukes
+ * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
 
 defined('_JEXEC') or die;
@@ -43,19 +43,17 @@ class JemOutput
 		}
 	}
 	
-	
 /**
  * Load stylesheet and JS for lightbox.
  */
-static public function lightbox()
-{	$settings = JemHelper::config();
+static public function lightbox() {
+	$settings = JemHelper::config();
 	$app = Factory::getApplication();
-	if (($settings->gddisabled == 1) && ($settings->lightbox == 1))
-	{
+	if ($settings->lightbox == 1) {
 		$document = Factory::getDocument();
-		$document->addStyleSheet(Uri::base() .'/media/com_jem/css/lightbox.min.css');
-		echo '<script src="' . Uri::base(true) . '/media/com_jem/js/lightbox.min.js"></script>
-			 <script>lightbox.option({
+		$document->addStyleSheet(Uri::base() .'media/com_jem/css/lightbox.min.css');
+		$document->addScript(Uri::base() . 'media/com_jem/js/lightbox.min.js');
+		echo '<script>lightbox.option({
    				   \'showImageNumberLabel\': false,
    			 })
 		</script>';
@@ -1184,39 +1182,44 @@ static public function lightbox()
 	 * @param array $image
 	 * @param string $type
 	 */
+
 	static public function flyer($data, $image, $type, $id = null)
 	{
-		$id_attr = $id ? 'id="'.$id.'"' : '';
-
-		$settings = JemHelper::config();
 		$uri = Uri::getInstance();
-
+		$id_attr = $id ? 'id="'.$id.'"' : '';
+		$settings = JemHelper::config();
 		switch($type) {
 			case 'event':
 				$folder = 'events';
 				$imagefile = $data->datimage;
 				$info = $data->title;
-				$precaption = Text::_('COM_JEM_EVENT');
-                $id = 'eventid-'. $data->id;
+				if(!$settings->flyer){
+					$precaption = Text::_('COM_JEM_EVENT');
+    	            $id = 'eventid-'. $data->id;
+				}
 				break;
 
 			case 'category':
 				$folder = 'categories';
 				$imagefile = $data->image;
 				$info = $data->catname;
-				$precaption = Text::_('COM_JEM_CATEGORY');
-				$id = 'catid-'. $data->id;
+				if(!$settings->flyer){
+					$precaption = Text::_('COM_JEM_CATEGORY');
+					$id = 'catid-'. $data->id;
+				}
 				break;
 
 			case 'venue':
 				$folder = 'venues';
 				$imagefile = $data->locimage;
 				$info = $data->venue;
-				$precaption = Text::_('COM_JEM_VENUE');
-				if (property_exists($data, 'locid')) {
-					$id = $data->locid;
-				} else {
-					$id = $data->id;
+				if(!$settings->flyer){
+					$precaption = Text::_('COM_JEM_VENUE');
+					if (property_exists($data, 'locid')) {
+						$id = $data->locid;
+					} else {
+						$id = $data->id;
+					}
 				}
 				break;
 		}
@@ -1224,35 +1227,42 @@ static public function lightbox()
 		// Do we have an image?
 		if (empty($imagefile) || empty($image)) {
 			return;
+		} else if(!$settings->flyer){
+			list($imagewidth, $imageheight) = getimagesize($image['original']) ?? [100, 100];
+			list($thumbwidth, $thumbheight) = getimagesize($image['thumb']) ?? [50, 50];		
 		}
-
-		// Does a thumbnail exist?
-		if (File::exists(JPATH_SITE.'/images/jem/'.$folder.'/small/'.$imagefile)) {
-			
-			// if "Enable Pop Up Thumbnail" is disabled
-			if ($settings->gddisabled == 0)	{
-				$icon = '<img src="'.$uri->base().$image['thumb'].'" width="'.$image['thumbwidth'].'" height="'.$image['thumbheight'].'" alt="'.$info.'" title="'.$info.'" />';
-				$output = '<div class="flyerimage">'.$icon.'</div>';
-			}
-			
-			// if "Enable Pop Up Thumbnail" is enabled and lightbox disabled
-			elseif (($settings->gddisabled == 1) && ($settings->lightbox == 0)) {
-				$attributes = $id_attr.' class="flyerimage" onclick="window.open(\''.$uri->base().$image['original'].'\',\'Popup\',\'width='. $imagewidth.',height='.$imageheight.',location=no,menubar=no,scrollbars=no,status=no,toolbar=no,resizable=no\')"';
-				$icon = '<img '.$attributes.' src="'.$uri->base().$image['thumb'].'" width="'.$image['thumbwidth'].'" height="'.$image['thumbheight'].'" alt="'.$info.'" title="'.Text::_('COM_JEM_CLICK_TO_ENLARGE').'" />';
-				$output = '<div class="flyerimage">'.$icon.'</div>';
-			}
-
-			// if "Enable Pop Up Thumbnail" and lightbox are enabled
-			elseif (($settings->gddisabled == 1) && ($settings->lightbox == 1)) {
-				$url = $uri->base().$image['original'];
-				$attributes = $id_attr.' rel="lightbox" class="flyermodal flyerimage" data-lightbox="lightbox-image-'.$id.'" title="'.$info.'" data-title="'.$precaption.': '.$info.'"';
-				$icon = '<img class="example-thumbnail" src="'.$uri->base().$image['thumb'].'" alt="'.$info.'" title="'.Text::_('COM_JEM_CLICK_TO_ENLARGE').'" />';
-				$output = '<div class="flyerimage"><a href="'.$url.'" '.$attributes.'>'.$icon.'</a></div>'; 
 				
-			}
-		// Otherwise take the values for the original image specified in the settings
-		} else {
-			$output = '<img '.$id_attr.' class="notmodal" src="'.$uri->base().$image['original'].'" width="'.$image['width'].'" height="'.$image['height'].'" alt="'.$info.'" />';
+		// Does a thumbnail exist?
+		if (!$settings->flyer){
+			if (File::exists(JPATH_SITE.'/images/jem/'.$folder.'/small/'.$imagefile)) {
+			
+				// if "Enable Pop Up Thumbnail" is disabled
+				if (($settings->gddisabled == 0) && ($settings->lightbox == 0))	{
+					$icon = '<img src="'.$uri->base().$image['thumb'].'" width="'.$thumbwidth.'" height="'.$thumbheight.'" alt="'.$info.'" title="'.$info.'" />';
+					$output = '<div class="flyerimage">'.$icon.'</div>';
+				}
+			
+				// if "Enable Pop Up Thumbnail" is enabled and lightbox disabled
+				elseif (($settings->gddisabled == 1) && ($settings->lightbox == 0)) {
+					$attributes = $id_attr.' class="flyerimage" onclick="window.open(\''.$uri->base().$image['original'].'\',\'Popup\',\'width='. $imagewidth.',height='.$imageheight.',location=no,menubar=no,scrollbars=no,status=no,toolbar=no,resizable=no\')"';
+					$icon = '<img '.$attributes.' src="'.$uri->base().$image['thumb'].'" width="'.$thumbwidth.'" height="'.$thumbheight.'" alt="'.$info.'" title="'.Text::_('COM_JEM_CLICK_TO_ENLARGE').'" />';
+					$output = '<div class="flyerimage">'.$icon.'</div>';
+				}
+
+				// if "Enable Pop Up Thumbnail" and lightbox are enabled
+				elseif (($settings->gddisabled == 1) && ($settings->lightbox == 1)) {
+					$url = $uri->base().$image['original'];
+					$attributes = $id_attr.' rel="lightbox" class="flyermodal flyerimage" data-lightbox="lightbox-image-'.$id.'" title="'.$info.'" data-title="'.$precaption.': '.$info.'"';
+					$icon = '<img class="example-thumbnail" src="'.$uri->base().$image['thumb'].'" alt="'.$info.'" title="'.Text::_('COM_JEM_CLICK_TO_ENLARGE').'" />';
+					$output = '<div class="flyerimage"><a href="'.$url.'" '.$attributes.'>'.$icon.'</a></div>'; 
+				
+				}
+				// If there is no thumbnail, then take the values for the original image specified in the settings
+			} else {				
+				$output = '<img '.$id_attr.' class="notmodal" src="'.$uri->base().$image['original'].'" width="'.$image['width'].'" height="'.$image['height'].'" alt="'.$info.'" />';				
+			}			
+		}else{
+			$output = '<img '.$id_attr.' class="notmodal img-responsive" src="'.$uri->base().$image['original'].'" width="auto" height="200px" alt="'.$info.'" />';
 		}
 		return $output;
 	}

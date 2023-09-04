@@ -1,15 +1,17 @@
 <?php
 /**
- * @version 4.0.1-dev1
- * @package JEM
- * @copyright (C) 2013-2023 joomlaeventmanager.net
- * @copyright (C) 2005-2009 Christoph Lukes
- * @license https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
+ * @version    4.1.0
+ * @package    JEM
+ * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2005-2009 Christoph Lukes
+ * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 
 $jemsettings = JemHelper::config();
 
@@ -161,11 +163,16 @@ $jemsettings = JemHelper::config();
               <?php if ($params->get('use_modal')) : ?>
                 <?php if ($item->eventimageorig) {
                   $image = $item->eventimageorig;
+						$document = Factory::getDocument();
+						$document->addStyleSheet(Uri::base() .'media/com_jem/css/lightbox.min.css');
+						$document->addScript(Uri::base() . 'media/com_jem/js/lightbox.min.js');
+						echo '<script>lightbox.option({
+							\'showImageNumberLabel\': false,
+							})
+							</script>';
                 } else {
                   $image = '';
-                } 
-				echo JemOutput::lightbox();
-				?>
+					} ?>
 				
               <a href="<?php echo $image; ?>" class="flyermodal" rel="lightbox" data-lightbox="wide-flyerimage-<?php echo $item->eventid ?>"  data-title="<?php echo Text::_('COM_JEM_EVENT') .': ' . $item->title; ?>">
               <?php endif; ?>
