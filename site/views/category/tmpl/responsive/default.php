@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.1.0
+ * @version    4.2.0
  * @package    JEM
  * @copyright  (C) 2013-2023 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 
 // JHtml::_('behavior.modal');
 ?>
-<div id="jem" class="jem_category<?php echo $this->pageclass_sfx;?>">
+<div id="jem" class="jem_category<?php echo $this->pageclass_sfx;?> cat_id<?php echo $this->category->id; ?>">
 	<div class="buttons">
 		<?php
 		$btn_params = array('id' => $this->category->slug, 'slug' => $this->category->slug, 'task' => $this->task, 'print_link' => $this->print_link);
