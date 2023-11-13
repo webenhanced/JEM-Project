@@ -399,8 +399,6 @@ div.pagination ul li {
     vertical-align: middle;
     text-decoration: none;
     border: 1px solid #ccc;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
     -webkit-transition-property: background-position, -webkit-border-bottom-left-radius, -webkit-box-shadow;
     -moz-transition-property: background-position, -moz-border-radius-bottomleft, -moz-box-shadow;
@@ -415,11 +413,7 @@ div.pagination ul li {
 .cpanel div.icon a:focus,
 .cpanel div.icon a:active {
     background-position: 0;
-    -webkit-border-bottom-left-radius: 50% 20px;
-    -moz-border-radius-bottomleft: 50% 20px;
     border-bottom-left-radius: 50% 20px;
-    -webkit-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
     box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
     position: relative;
     z-index: 10;
@@ -520,8 +514,6 @@ table {
     border-collapse: separate;
     *border-collapse: collapse;
     border-left: 0;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
 }
 
@@ -544,53 +536,39 @@ table {
 
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
-    -webkit-border-top-left-radius: 4px;
     border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
 }
 
 .table-bordered thead:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child {
-    -webkit-border-top-right-radius: 4px;
     border-top-right-radius: 4px;
-    -moz-border-radius-topright: 4px;
 }
 
 .table-bordered thead:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child,
 .table-bordered tfoot:last-child tr:last-child td:first-child {
-    -webkit-border-radius: 0 0 0 4px;
-    -moz-border-radius: 0 0 0 4px;
     border-radius: 0 0 0 4px;
-    -webkit-border-bottom-left-radius: 4px;
     border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomleft: 4px;
 }
 
 .table-bordered thead:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child,
 .table-bordered tfoot:last-child tr:last-child td:last-child {
-    -webkit-border-bottom-right-radius: 4px;
     border-bottom-right-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
 }
 
 .table-bordered caption + thead tr:first-child th:first-child,
 .table-bordered caption + tbody tr:first-child td:first-child,
 .table-bordered colgroup + thead tr:first-child th:first-child,
 .table-bordered colgroup + tbody tr:first-child td:first-child {
-    -webkit-border-top-left-radius: 4px;
     border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
 }
 
 .table-bordered caption + thead tr:first-child th:last-child,
 .table-bordered caption + tbody tr:first-child td:last-child,
 .table-bordered colgroup + thead tr:first-child th:last-child,
 .table-bordered colgroup + tbody tr:first-child td:last-child {
-    -webkit-border-top-right-radius: 4px;
     border-top-right-radius: 4px;
-    -moz-border-right-topleft: 4px;
 }
 
 .table-striped tbody tr:nth-child(odd) td,
@@ -1068,7 +1046,7 @@ div.current span.faux-label {
     float: left;
     clear: left;
     /* margin-top: 8px; */
-    /* -moz-hyphens: auto; */
+    /* hyphens: auto; */
 }
 
 div.current fieldset.radio input[type="radio"],
@@ -1149,8 +1127,6 @@ table.adminlist.help-toc {
 }
 
 .label {
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
 }
 
@@ -1224,8 +1200,6 @@ a.label:focus {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     background-color: #fcf8e3;
     border: 1px solid #faebcc;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
     border-radius: 4px;
 }
 
