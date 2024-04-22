@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -14,6 +14,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * Venues-View
 */
@@ -61,7 +63,7 @@ class JemViewVenues extends JemView
 				//execute plugins
 				$item->text = $item->locdescription;
 				$item->title = $item->venue;
-				JPluginHelper::importPlugin('content');
+				PluginHelper::importPlugin('content');
 				$app->triggerEvent('onContentPrepare', array('com_jem.venue', &$item, &$params, 0));
 				$item->locdescription = $item->text;
 			}

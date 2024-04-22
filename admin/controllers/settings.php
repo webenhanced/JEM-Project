@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * JEM Component Settings Controller
@@ -117,7 +118,7 @@ class JemControllerSettings extends BaseController
 			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_jem&view=settings', false));
+			$this->setRedirect(Route::_('index.php?option=com_jem&view=settings', false));
 			return false;
 		}
 
@@ -128,7 +129,7 @@ class JemControllerSettings extends BaseController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_jem&view=settings', false));
+			$this->setRedirect(Route::_('index.php?option=com_jem&view=settings', false));
 			return false;
 		}
 
@@ -142,7 +143,7 @@ class JemControllerSettings extends BaseController
 				$app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_jem&view=settings', false));
+				$this->setRedirect(Route::_('index.php?option=com_jem&view=settings', false));
 				break;
 
 			default:
@@ -151,7 +152,7 @@ class JemControllerSettings extends BaseController
 				$app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_jem&view=main', false));
+				$this->setRedirect(Route::_('index.php?option=com_jem&view=main', false));
 				break;
 		}
 	}

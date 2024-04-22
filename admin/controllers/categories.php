@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Categories Controller
@@ -45,7 +46,7 @@ class JemControllerCategories extends AdminController
 	{
 		JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		$this->setRedirect(JRoute::_('index.php?option=com_jem&view=categories', false));
+		$this->setRedirect(Route::_('index.php?option=com_jem&view=categories', false));
 
 		// Initialise variables.
 		$model = $this->getModel();
@@ -79,7 +80,7 @@ class JemControllerCategories extends AdminController
 			parent::saveorder();
 		} else {
 			// Nothing to reorder
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+			$this->setRedirect(Route::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 			return true;
 		}
 	}
@@ -120,7 +121,7 @@ class JemControllerCategories extends AdminController
  			}
  		}
 
- 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
+ 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
  	}
 
  	/**

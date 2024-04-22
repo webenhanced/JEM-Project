@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -64,10 +64,6 @@ class JemViewEventslist extends JemView
 
 		// get variables
 		$filter_order_DirDefault = 'ASC';
-		// Reverse default order for dates in archive mode
-		if ($task == 'archive' && $filter_order == 'a.dates') {
-			$filter_order_DirDefault = 'DESC';
-		}
 
 		//Text filter
 		$filter_type = $app->getUserStateFromRequest('com_jem.eventslist.' . $itemid . '.filter_type', 'filter_type', 0, 'int');
@@ -113,6 +109,11 @@ class JemViewEventslist extends JemView
 			$filter_order_Dir = $app->getUserStateFromRequest('com_jem.eventslist.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', $filter_order_DirDefault, 'word');
 		}
 
+		// Reverse default order for dates in archive mode
+		if ($task == 'archive' && $filter_order == 'a.dates') {
+			$filter_order_Dir = 'DESC';
+		}
+
 		// table ordering
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order']     = $filter_order;
@@ -138,12 +139,14 @@ class JemViewEventslist extends JemView
 
 		if ($task == 'archive') {
 			$pathway->addItem(Text::_('COM_JEM_ARCHIVE'), Route::_('index.php?option=com_jem&view=eventslist&task=archive'));
-			$print_link = $uri->toString() . "?task=archive&print=1";
+			$print_link = $uri->toString() . "&amp;task=archive&print=1";
 			$pagetitle   .= ' - ' . Text::_('COM_JEM_ARCHIVE');
 			$pageheading .= ' - ' . Text::_('COM_JEM_ARCHIVE');
+			$archive_link = Route::_('index.php?option=com_jem&view=eventslist');
 			$params->set('page_heading', $pageheading);
 		} else {
-			$print_link = $uri->toString() . "?print=1&amp;tmpl=component&amp;";
+			$print_link = $uri->toString() . "&amp;print=1&amp;tmpl=component&amp;";
+			$archive_link = $uri->toString();
 		}
 
 		// Add site name to title if param is set
@@ -198,6 +201,7 @@ class JemViewEventslist extends JemView
 		$this->rows          = $rows;
 		$this->noevents      = $noevents;
 		$this->print_link    = $print_link;
+		$this->archive_link  = $archive_link;
 		$this->params        = $params;
 		$this->dellink       = $permissions->canAddEvent; // deprecated
 		$this->pagination    = $pagination;

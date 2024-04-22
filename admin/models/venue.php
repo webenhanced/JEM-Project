@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 
 require_once __DIR__ . '/admin.php';
 
@@ -33,7 +34,7 @@ class JemModelVenue extends JemModelAdmin
 	public function publish(&$pks, $value = 1)
 	{
 		// Additionally include the JEM plugins for the onContentChangeState event.
-		JPluginHelper::importPlugin('jem');
+		PluginHelper::importPlugin('jem');
 
 		return parent::publish($pks, $value);
 	}

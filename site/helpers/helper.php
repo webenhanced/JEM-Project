@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -20,6 +20,8 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 
 // ensure JemFactory is loaded (because this class is used by modules or plugins too)
 require_once(JPATH_SITE.'/components/com_jem/factory.php');
@@ -161,7 +163,7 @@ class JemHelper
 				JemHelper::addLogEntry('  do cleanup...', __METHOD__);
 
 				// trigger an event to let plugins handle whatever cleanup they want to do.
-				if (JPluginHelper::importPlugin('jem')) {
+				if (PluginHelper::importPlugin('jem')) {
 					$dispatcher = JemFactory::getDispatcher();
 					$dispatcher->triggerEvent('onJemBeforeCleanup', array($jemsettings, $forced));
 				}
@@ -853,7 +855,7 @@ class JemHelper
 					}
 					else
 					{
-						JPluginHelper::importPlugin('jem');
+						PluginHelper::importPlugin('jem');
 						$dispatcher = JemFactory::getDispatcher();
 						$res        = $dispatcher->triggerEvent('onUserOnOffWaitinglist', array($waitreg->id));
 					}
@@ -1060,7 +1062,7 @@ class JemHelper
 		$description .= Text::_('COM_JEM_CATEGORY').': '.implode(', ', $categories).'\\n';
 
 		$link = $uri->root().JemHelperRoute::getEventRoute($event->slug);
-		$link = JRoute::_($link);
+		$link = Route::_($link);
 		$description .= Text::_('COM_JEM_ICS_LINK').': '.$link.'\\n';
 
 		// location
@@ -1181,7 +1183,7 @@ class JemHelper
 
 
 		if ($href) {
-			$href = JRoute::_ ($href);
+			$href = Route::_ ($href);
 			$tip = '<span class="'.$class.'" data-bs-toggle="tooltip" title="'.$title.$tooltip.'"><a href="'.$href.'">'.$time.$text.'</a></span>';
 		} else {
 			$tip = '<span class="'.$class.'" data-bs-toggle="tooltip" title="'.$title.$tooltip.'">'.$text.'</span>';

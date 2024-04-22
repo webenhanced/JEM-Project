@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  *
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
 
 require_once (JPATH_COMPONENT_SITE.'/classes/controller.form.class.php');
 
@@ -60,12 +61,12 @@ class JemControllerEvent extends JemControllerForm
 		$id    = $model->getState('event.id');
 
 		// trigger all jem plugins
-		JPluginHelper::importPlugin('jem');
+		PluginHelper::importPlugin('jem');
 		$dispatcher = JemFactory::getDispatcher();
 		$dispatcher->triggerEvent('onEventEdited', array($id, $isNew));
 
 		// but show warning if mailer is disabled
-		if (!JPluginHelper::isEnabled('jem', 'mailer')) {
+		if (!PluginHelper::isEnabled('jem', 'mailer')) {
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JEM_GLOBAL_MAILERPLUGIN_DISABLED'), 'notice');
 		}
 	}

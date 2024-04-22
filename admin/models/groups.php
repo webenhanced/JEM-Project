@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
 
 jimport('joomla.application.component.modellist');
 
@@ -17,7 +18,7 @@ jimport('joomla.application.component.modellist');
  * JEM Component Groups Model
  *
  **/
-class JemModelGroups extends JModelList
+class JemModelGroups extends ListModel
 {
 	/**
 	 * Constructor.

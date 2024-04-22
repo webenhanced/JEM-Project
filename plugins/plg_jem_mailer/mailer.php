@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
  * @subpackage JEM Mailer Plugin
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  *
@@ -23,9 +23,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 // Import library dependencies
-jimport('joomla.event.plugin');
 jimport('joomla.utilities.mail');
 
 require_once(JPATH_SITE.'/components/com_jem/helpers/route.php');
@@ -33,7 +33,7 @@ require_once(JPATH_SITE.'/components/com_jem/helpers/helper.php');
 require_once(JPATH_SITE.'/components/com_jem/factory.php');
 
 
-class plgJemMailer extends JPlugin
+class plgJemMailer extends CMSPlugin
 {
 	private $_SiteName = '';
 	private $_MailFrom = '';

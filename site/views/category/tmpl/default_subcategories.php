@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
 
 $class = ' class="first"';
 ?>
@@ -48,7 +49,7 @@ $class = ' class="first"';
 		<li<?php echo $class; ?>>
 			<?php $class = ''; ?>
 			<span class="item-title">
-				<a href="<?php echo JRoute::_(JemHelperRoute::getCategoryRoute($child->id, $this->task)); ?>">
+				<a href="<?php echo Route::_(JemHelperRoute::getCategoryRoute($child->id, $this->task)); ?>">
 					<?php echo $this->escape($child->catname); ?>
 				</a>
 			</span>

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version    4.2.0
+ * @version    4.2.1
  * @package    JEM
- * @copyright  (C) 2013-2023 joomlaeventmanager.net
+ * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
  * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
  */
@@ -117,6 +117,8 @@ class JemController extends BaseController
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit('Invalid Token');
 
+		ob_clean();
+
 		$id = Factory::getApplication()->input->getInt('file', 0);
 		$path = JemAttachment::getAttachmentPath($id);
 
@@ -126,7 +128,7 @@ class JemController extends BaseController
 		//$doc->setMimeEncoding($mime);
 
 		header('Content-Disposition: attachment; filename="'.basename($path).'"');
-		if ($fd = fopen ($path, "r"))
+		if ($fd = fopen ($path, "rb"))
 		{
 			$fsize = filesize($path);
 			header("Content-length: $fsize");
