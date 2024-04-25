@@ -255,7 +255,9 @@ final class Jem extends Adapter
         $item->setLanguage();
 
         // Initialize the item parameters.
-        $item->params = new Registry($item->params);
+        $registry     = new Registry($item->params);
+        $item->params = clone ComponentHelper::getParams('com_jem', true);
+        $item->params->merge($registry);
 
         $item->metadata = new Registry($item->metadata);
 
@@ -278,7 +280,13 @@ final class Jem extends Adapter
         $item->metaauthor = $item->metadata->get('author');
 
         // Add the meta-data processing instructions.
-        // TODO:
+        $item->addInstruction(Indexer::META_CONTEXT, 'link');
+        $item->addInstruction(Indexer::META_CONTEXT, 'metakey');
+        $item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
+        $item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
+        $item->addInstruction(Indexer::META_CONTEXT, 'author');
+        $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
+
 		// $item->addInstruction(FinderIndexer::META_CONTEXT, 'meta_description');
 
         // Translate the state. Articles should only be published if the category is published.
@@ -290,6 +298,7 @@ final class Jem extends Adapter
         // Add the type taxonomy data.
         if (\in_array('type', $taxonomies)) {
             $item->addTaxonomy('Type', 'Event');
+        }
 
         // Add the author taxonomy data.
         if (!empty($item->author) || !empty($item->created_by_alias)) {
@@ -331,7 +340,7 @@ final class Jem extends Adapter
      *
      * @return  boolean  True on success.
      *
-     * 
+     * @since   3.1
      */
     protected function setup()
     {
@@ -379,7 +388,7 @@ final class Jem extends Adapter
         $case_when_category_alias .= $query->concatenate([$c_id, 'c.alias'], ':');
         $case_when_category_alias .= ' ELSE ';
         $case_when_category_alias .= $c_id . ' END as catslug';
-        $query->select($case_when_category_alias)
+        $query->select($case_when_category_alias);
 
         $case_when_venue_alias = ' CASE WHEN ';
         $case_when_venue_alias .= $query->charLength('l.alias');
