@@ -204,7 +204,7 @@ class plgFinderJem extends Adapter
 
 
 		// Add the type taxonomy data.
-		$item->addTaxonomy('Type', '[Jem Event]');
+		$item->addTaxonomy('Type', 'Jem Event');
 		//Phoca Cart,Phoca Cart Category,Phoca Download Category,Phoca Download
         // Add the author taxonomy data.
         if (!empty($item->author) || !empty($item->created_by_alias)) 
