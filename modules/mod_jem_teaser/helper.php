@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @subpackage JEM Teaser Module
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
@@ -15,6 +15,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Date\Date;
 
 BaseDatabaseModel::addIncludePath(JPATH_SITE.'/components/com_jem/models', 'JemModel');
 
@@ -151,10 +152,6 @@ abstract class ModJemTeaserHelper
 		# count
 		$count = $params->get('count', '2');
 		$model->setState('list.limit', $count);
-
-		// if ($params->get('use_modal', 0)) {
-		// 	JHtml::_('behavior.modal', 'a.flyermodal');
-		// }
 
 		# date/time
 		$dateFormat = $params->get('formatdate', '');
@@ -328,14 +325,14 @@ abstract class ModJemTeaserHelper
 
 				//Upcoming multidayevent (From 16.10.2010 Until 18.10.2010)
 				if (($dates_stamp > $tomorrow_stamp) && $enddates_stamp) {
-					$startdate = date('l', strtotime($row->dates));
+					$startdate = date('l', strtotime($row->dates ?? ''));
 					$result = Text::sprintf('MOD_JEM_TEASER_FROM', $startdate);
 				}
 
 				//current multidayevent (Until 18.08.2008)
 				if ($row->enddates && ($enddates_stamp > $today_stamp) && ($dates_stamp <= $today_stamp)) {
 					//format date
-					$enddate = date('l', strtotime($row->enddates));
+					$enddate = date('l', strtotime($row->enddates ?? ''));
 					$result = Text::sprintf('MOD_JEM_TEASER_UNTIL', $enddate);
 				}
 			} else { // show day difference
@@ -480,7 +477,7 @@ abstract class ModJemTeaserHelper
 	 *
 	 * @access public
 	 *
-	 * @param  mixed  date in form 'yyyy-mm-dd' or as JDate object
+	 * @param  mixed  date in form 'yyyy-mm-dd' or as Date object
 	 * @param  array  formats to get as assotiative array (e.g. 'day' => 'j'; see {@link PHP_MANUAL#date})
 	 *
 	 * @return mixed  array of formatted date parts or false
@@ -492,7 +489,7 @@ abstract class ModJemTeaserHelper
 		}
 
 		$result = array();
-		$jdate = ($date instanceof JDate) ? $date : new JDate($date);
+		$jdate = ($date instanceof Date) ? $date : new Date($date);
 
 		foreach ($formats as $k => $v) {
 			$result[$k] = $jdate->format($v, false, true);

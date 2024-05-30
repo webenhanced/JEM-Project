@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -54,9 +54,6 @@ class JemViewAttendees extends JemView
 		$menu		= $app->getMenu();
 		$menuitem	= $menu->getActive();
 		$uri        = Uri::getInstance();
-
-		// HTMLHelper::_('behavior.tooltip');
-		// HTMLHelper::_('behavior.modal', 'a.flyermodal');
 
 		// Load css
 		JemHelper::loadCss('jem');
@@ -206,9 +203,6 @@ class JemViewAttendees extends JemView
 	//	$limitstart       = $jinput->get('limitstart', '0', 'int');
 	//	$limit            = $app->getUserStateFromRequest('com_jem.selectusers.limit', 'limit', $this->jemsettings->display_num, 'int');
 	//	$eventId          = !empty($event->id) ? $event->id : 0;
-
-		// HTMLHelper::_('behavior.tooltip');
-		// HTMLHelper::_('behavior.modal', 'a.flyermodal');
 
 		// Load css
 		JemHelper::loadCss('jem');

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
 
 /**
  * JEM Event Table
@@ -64,13 +66,13 @@ class JemTableEvent extends Table
 		}
 
 		if (isset($array['attribs']) && is_array($array['attribs'])) {
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
@@ -243,7 +245,7 @@ class JemTableEvent extends Table
 							$filename = JemImage::sanitize($image_dir, $file['name']);
 							$filepath = $image_dir . $filename;
 
-							if (JFile::upload($file['tmp_name'], $filepath)) {
+							if (File::upload($file['tmp_name'], $filepath)) {
 								$image_to_delete = $this->datimage; // delete previous image
 								$this->datimage = $filename;
 							}
@@ -256,7 +258,7 @@ class JemTableEvent extends Table
 					$this->datimage = '';
 				} elseif (!$this->id && is_null($this->datimage) && !empty($datimage)) {
 					// event is a copy so copy datimage too
-					if (JFile::exists($image_dir . $datimage)) {
+					if (File::exists($image_dir . $datimage)) {
 						// if it's already within image folder it's safe
 						$this->datimage = $datimage;
 					}
@@ -264,7 +266,7 @@ class JemTableEvent extends Table
 			} // end image if
 		} // if (!backend)
 
-		$format = JFile::getExt($image_dir . $this->datimage);
+		$format = File::getExt($image_dir . $this->datimage);
 		if (!in_array($format, $allowable))
 		{
 			$this->datimage = '';

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -13,7 +13,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
-use \Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Filter\OutputFilter;
 
 /**
  * View class Group
@@ -44,10 +45,6 @@ class JemViewGroup extends JemAdminView
 			return false;
 		}
 
-		// HTMLHelper::_('behavior.modal', 'a.modal');
-		// HTMLHelper::_('behavior.tooltip');
-		// HTMLHelper::_('behavior.formvalidation');
-
 		//initialise variables
 		$jemsettings = JemHelper::config();
 		$this->settings	= JemAdmin::config();
@@ -64,7 +61,7 @@ class JemViewGroup extends JemAdminView
 		$available_users 	= $this->get('Available');
 
 		//make data safe
-		JFilterOutput::objectHTMLSafe($this->item);
+		OutputFilter::objectHTMLSafe($this->item);
 
 		//create selectlists
 		$lists = array();

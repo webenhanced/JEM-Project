@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -66,9 +66,6 @@ use Joomla\CMS\Uri\Uri;
 			$style = '.red, .red a { color:red; }';
 			$document->addStyleDeclaration($style);
 		}
-
-		//add style to description of the tooltip (hastip)
-		// HTMLHelper::_('behavior.tooltip');
 
 		// add filter selection for the search
 		$filters = array();

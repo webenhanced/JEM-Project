@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use \Joomla\CMS\Language\Text;
-
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 // TODO: Improve error handling
 
@@ -216,7 +215,7 @@ class JemModelSampledata extends BaseDatabaseModel
 				$subDirectory .= "small/";
 			}
 
-			JFile::copy($this->filelist['folder'] . '/' . $file, $imagebase . $subDirectory . $file);
+			File::copy($this->filelist['folder'] . '/' . $file, $imagebase . $subDirectory . $file);
 		}
 		return true;
 	}
@@ -229,7 +228,7 @@ class JemModelSampledata extends BaseDatabaseModel
 	private function deleteTmpFolder()
 	{
 		if ($this->filelist['folder']) {
-			if (!JFolder::delete($this->filelist['folder'])) {
+			if (!Folder::delete($this->filelist['folder'])) {
 				return false;
 			}
 			return true;

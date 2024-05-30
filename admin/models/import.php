@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -15,6 +15,8 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Filesystem\File;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Log\Log;
 
 jimport('joomla.application.component.model');
 
@@ -502,12 +504,12 @@ class JemModelImport extends BaseDatabaseModel
 
 		try {
 			$par = $result->manifest_cache;
-			$params = new JRegistry;
+			$params = new Registry;
 			$params->loadString($par, 'JSON');
 			return $params->get('version', false);
 		}
 		catch(Exception $e) {
-			JemHelper::addLogEntry($e->getMessage(), __METHOD__, JLog::ERROR);
+			JemHelper::addLogEntry($e->getMessage(), __METHOD__, Log::ERROR);
 			return false;
 		}
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Log\Log;
 
 /**
  * Controller: Attendees
@@ -227,7 +228,7 @@ class JemControllerAttendees extends BaseController
 			if (!$model->setStatus($ids, $value))
 			{
 				$message = $model->getError();
-				JemHelper::addLogEntry($message, __METHOD__, JLog::ERROR);
+				JemHelper::addLogEntry($message, __METHOD__, Log::ERROR);
 				Factory::getApplication()->enqueueMessage($message, 'warning');
 			}
 			else
@@ -266,7 +267,7 @@ class JemControllerAttendees extends BaseController
 					break;
 				}
 
-				JemHelper::addLogEntry($message, __METHOD__, JLog::DEBUG);
+				JemHelper::addLogEntry($message, __METHOD__, Log::DEBUG);
 			}
 		}
 

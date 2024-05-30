@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @subpackage JEM Wide Module
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
@@ -104,10 +104,6 @@ abstract class ModJemWideHelper
 		# count
 		$count = $params->get('count', '2');
 		$model->setState('list.limit', $count);
-
-		// if ($params->get('use_modal', 0)) {
-		// 	JHtml::_('behavior.modal', 'a.flyermodal');
-		// }
 
 		# date/time
 		$dateFormat = $params->get('formatdate', '');

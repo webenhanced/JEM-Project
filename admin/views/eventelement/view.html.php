@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView;
 
 /**
  * Eventelement-View
  */
-class JemViewEventelement extends JViewLegacy {
+class JemViewEventelement extends Htmlview {
 
 	public function display($tpl = null)
 	{
@@ -28,9 +29,6 @@ class JemViewEventelement extends JViewLegacy {
 		$jemsettings = JEMAdmin::config();
 		$document    = $app->getDocument();
 		$itemid      = $app->input->getInt('id', 0) . ':' . $app->input->getInt('Itemid', 0);
-
-		// HTMLHelper::_('behavior.tooltip');
-		// HTMLHelper::_('behavior.modal');
 
 		//get var
 		$filter_order     = $app->getUserStateFromRequest('com_jem.eventelement.filter_order',     'filter_order', 'a.dates', 'cmd');

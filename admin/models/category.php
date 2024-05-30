@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Date\Date;
 
 /**
  * Category Model
@@ -127,7 +129,7 @@ class JemModelCategory extends AdminModel
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry();
+			$registry = new Registry();
 			$registry->loadString($result->metadata ?? '{}');
 			$result->metadata = $registry->toArray();
 
@@ -137,7 +139,7 @@ class JemModelCategory extends AdminModel
 			$tz = new DateTimeZone(Factory::getApplication()->getCfg('offset'));
 
 			if (intval($result->created_time)) {
-				$date = new JDate($result->created_time);
+				$date = new Date($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toSql(true);
 			}
@@ -146,7 +148,7 @@ class JemModelCategory extends AdminModel
 			}
 
 			if (intval($result->modified_time)) {
-				$date = new JDate($result->modified_time);
+				$date = new Date($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toSql(true);
 			}

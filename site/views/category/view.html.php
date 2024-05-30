@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -44,9 +44,6 @@ class JemViewCategory extends JemView
 		if ($this->getLayout() == 'calendar')
 		{
 			### Category Calendar view ###
-
-			// Load tooltips behavior
-			// HTMLHelper::_('behavior.tooltip');
 
 			//initialize variables
 			$app         = Factory::getApplication();
@@ -164,8 +161,6 @@ class JemViewCategory extends JemView
 			$settings    = JemHelper::globalattribs();
 			$user        = JemFactory::getUser();
 			$print       = $app->input->getBool('print', false);
-
-			// HTMLHelper::_('behavior.tooltip');
 
 			// get menu information
 			$uri      = Uri::getInstance();

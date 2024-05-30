@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView;
 /**
  * View class for the JEM Contactelement screen
  *
  * @package JEM
  *
  */
-class JEMViewContactelement extends JViewLegacy {
+class JEMViewContactelement extends HtmlView {
 
 	public function display($tpl = null)
 	{
@@ -26,9 +27,6 @@ class JEMViewContactelement extends JViewLegacy {
 		$app = Factory::getApplication();
 		$db			= Factory::getContainer()->get('DatabaseDriver');
 		$document   = $app->getDocument();
-
-		// HTMLHelper::_('behavior.tooltip');
-		// HTMLHelper::_('behavior.modal');
 
 		//get vars
 		$filter_order		= $app->getUserStateFromRequest('com_jem.contactelement.filter_order', 'filter_order', 'con.name', 'cmd');

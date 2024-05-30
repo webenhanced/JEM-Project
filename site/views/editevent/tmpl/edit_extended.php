@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-
+use Joomla\CMS\Date\Date;
 ?>
 
 <!-- RECURRENCE START -->
@@ -27,7 +27,7 @@ use Joomla\CMS\Language\Text;
 				<br><div class="recurrence_notice"><small>
 				<?php
 				$anticipation = $this->jemsettings->recurrence_anticipation;
-				$limitdate = new JDate('now +' . $anticipation . 'days');
+				$limitdate = new Date('now +' . $anticipation . 'days');
 				$limitdate = JemOutput::formatLongDateTime($limitdate->format('Y-m-d'), '');
 				echo Text::sprintf(Text::_('COM_JEM_EDITEVENT_NOTICE_GENSHIELD'), $limitdate);
 				?></small></div>

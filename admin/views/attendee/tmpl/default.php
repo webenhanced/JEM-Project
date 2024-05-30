@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -15,10 +15,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Session\Session;
 
-// HTMLHelper::_('behavior.modal', 'a.usermodal');
-// HTMLHelper::_('behavior.tooltip');
-// HTMLHelper::_('behavior.formvalidation');
-// HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('jquery.framework');
 
 $app = Factory::getApplication();
@@ -167,9 +163,3 @@ Joomla.submitbutton = function(task)
 	<input type="hidden" name="event" value="<?php echo ($this->row->event ? $this->row->event : $this->event); ?>" />
 	<input type="hidden" name="task" value="" />
 </form>
-
-
-<?php
-//keep session alive while editing
-// HTMLHelper::_('behavior.keepalive');
-?>

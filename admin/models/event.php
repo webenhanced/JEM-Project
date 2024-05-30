@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Log\Log;
 
 require_once __DIR__ . '/admin.php';
 
@@ -120,12 +122,12 @@ class JemModelEvent extends JemModelAdmin
 		if ($item = parent::getItem($pk)){
 			// Convert the params field to an array.
 			// (this may throw an exception - but there is nothings we can do)
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->attribs ?? '{}');
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadString($item->metadata ?? '{}');
 			$item->metadata = $registry->toArray();
 
@@ -379,7 +381,7 @@ class JemModelEvent extends JemModelAdmin
 
 			// Store cats
 			if (!$this->_storeCategoriesSelected($pk, $cats, !$backend, $new)) {
-			//	JemHelper::addLogEntry('Error storing categories for event ' . $pk, __METHOD__, JLog::ERROR);
+			//	JemHelper::addLogEntry('Error storing categories for event ' . $pk, __METHOD__, Log::ERROR);
 				$this->setError(Text::_('COM_JEM_EVENT_ERROR_STORE_CATEGORIES'));
 				$saved = false;
 			}
@@ -387,7 +389,7 @@ class JemModelEvent extends JemModelAdmin
 			// Store invited users (frontend only, on backend no attendees on editevent view)
 			if (!$backend && ($jemsettings->regallowinvitation == 1)) {
 				if (!$this->_storeUsersInvited($pk, $invitedusers, !$backend, $new)) {
-				//	JemHelper::addLogEntry('Error storing users invited for event ' . $pk, __METHOD__, JLog::ERROR);
+				//	JemHelper::addLogEntry('Error storing users invited for event ' . $pk, __METHOD__, Log::ERROR);
 					$this->setError(Text::_('COM_JEM_EVENT_ERROR_STORE_INVITED_USERS'));
 					$saved = false;
 				}
@@ -531,7 +533,7 @@ class JemModelEvent extends JemModelAdmin
 				try {
 					$ret = $db->execute();
 				} catch (Exception $e) {
-					JemHelper::addLogEntry('Exception: '. $e->getMessage(), __METHOD__, JLog::ERROR);
+					JemHelper::addLogEntry('Exception: '. $e->getMessage(), __METHOD__, Log::ERROR);
 					$ret = false;
 				}
 
@@ -553,7 +555,7 @@ class JemModelEvent extends JemModelAdmin
 				try {
 					$ret = $db->execute();
 				} catch (Exception $e) {
-					JemHelper::addLogEntry('Exception: '. $e->getMessage(), __METHOD__, JLog::ERROR);
+					JemHelper::addLogEntry('Exception: '. $e->getMessage(), __METHOD__, Log::ERROR);
 					$ret = false;
 				}
 

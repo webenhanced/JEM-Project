@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
@@ -22,6 +23,7 @@ use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Application\ApplicationHelper;
 
 // ensure JemFactory is loaded (because this class is used by modules or plugins too)
 require_once(JPATH_SITE.'/components/com_jem/factory.php');
@@ -474,8 +476,8 @@ class JemHelper
 			return false;
 		}
 
-		$fullPath = JPath::clean(JPATH_SITE.'/images/jem/'.$folder.'/'.$filename);
-		$fullPaththumb = JPath::clean(JPATH_SITE.'/images/jem/'.$folder.'/small/'.$filename);
+		$fullPath = Path::clean(JPATH_SITE.'/images/jem/'.$folder.'/'.$filename);
+		$fullPaththumb = Path::clean(JPATH_SITE.'/images/jem/'.$folder.'/small/'.$filename);
 		if (is_file($fullPath)) {
 			// Count usage and don't delete if used elsewhere.
 			$db = Factory::getContainer()->get('DatabaseDriver');
@@ -1738,12 +1740,12 @@ class JemHelper
 	 *
 	 * @return string  Processed string
 	 *
-	 * @see    JApplication, JApplicationHelper
+	 * @see    ApplicationHelper
 	 * @since  2.1.7
 	 */
 	static public function stringURLSafe($string)
 	{
-		return JApplicationHelper::stringURLSafe($string);
+		return ApplicationHelper::stringURLSafe($string);
 	}
 
 	/**

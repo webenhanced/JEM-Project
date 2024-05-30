@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-// HTMLHelper::_('behavior.tooltip');
-// HTMLHelper::_('behavior.modal');
 
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive');
@@ -82,8 +79,3 @@ $canDo = JEMHelperBackend::getActions();
 	<?php //endif; ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
-
-<?php
-//keep session alive while editing
-// HTMLHelper::_('behavior.keepalive');
-?>

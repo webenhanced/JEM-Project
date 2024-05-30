@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -13,13 +13,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Session\Session;
-
-jimport('joomla.form.formfield');
+use Joomla\CMS\Form\FormField;
 
 /**
  * Contact select
  */
-class JFormFieldModal_Contact extends JFormField
+class JFormFieldModal_Contact extends FormField
 {
 	/**
 	 * field type
@@ -32,9 +31,6 @@ class JFormFieldModal_Contact extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Load modal behavior
-		// HTMLHelper::_('behavior.modal', 'a.modal');
-
 		// Build the script
 		$script = array();
 		$script[] = '    function jSelectContact_'.$this->id.'(id, name, object) {';

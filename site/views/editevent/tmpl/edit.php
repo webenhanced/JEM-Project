@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -19,8 +19,6 @@ $document = $app->getDocument();
 $wa = $document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
-//->useScript('behavior.calendar');
-
 // Create shortcut to parameters.
 $params		= $this->params;
 // $settings	= json_decode($this->item->attribs);

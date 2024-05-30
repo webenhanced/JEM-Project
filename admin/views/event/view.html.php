@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -37,10 +37,6 @@ class JemViewEvent extends JemAdminView
 			Factory::getApplication()->enqueueMessage(implode("\n", $errors), 'error');
 			return false;
 		}
-		// HTMLHelper::_('behavior.framework');
-		// HTMLHelper::_('behavior.modal', 'a.modal');
-		// HTMLHelper::_('behavior.tooltip');
-		// HTMLHelper::_('behavior.formvalidation');
 
 		//initialise variables
 		$jemsettings 	= JemHelper::config();

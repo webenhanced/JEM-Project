@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -145,10 +145,6 @@ class JemViewEditvenue extends JemView
 			\Joomla\CMS\Factory::getApplication()->enqueueMessage(implode("\n", $errors), 'warning');
 			return false;
 		}
-
-		// HTMLHelper::_('behavior.framework');
-		// HTMLHelper::_('behavior.formvalidation');
-		// HTMLHelper::_('behavior.tooltip');
 
 		$access2      = JemHelper::getAccesslevelOptions(true);
 		$this->access = $access2;

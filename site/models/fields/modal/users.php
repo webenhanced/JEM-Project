@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
  * @copyright  (C) 2005-2009 Christoph Lukes
@@ -32,9 +32,6 @@ class JFormFieldModal_Users extends FormField
 	 */
 	protected function getInput()
 	{
-		// Load modal behavior
-		// HTMLHelper::_('behavior.modal', 'a.flyermodal');
-
 		// Build the script
 		$script = array();
 		$script[] = '    function jSelectUsers_'.$this->id.'(ids, count, object) {';

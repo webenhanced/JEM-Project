@@ -1,6 +1,6 @@
 <?php
 /**
- * @version    4.2.1
+ * @version    4.2.2
  * @package    JEM
  * @subpackage JEM Calendar Module
  * @copyright  (C) 2013-2024 joomlaeventmanager.net
@@ -29,12 +29,6 @@ require_once(JPATH_SITE.'/components/com_jem/factory.php');
 
 # Create JEM's file logger (for debug)
 JemHelper::addFileLogger();
-
-# Include mootools or bootstrap tooltip
-// JHtml::_('behavior.tooltip');
-// if (version_compare(JVERSION, '3.3', 'ge')) {
-	HTMLHelper::_('bootstrap.tooltip','.hasTooltip');
-// }
 
 # Parameters
 $app                 = Factory::getApplication();
