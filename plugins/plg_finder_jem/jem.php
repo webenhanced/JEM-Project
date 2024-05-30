@@ -13,7 +13,6 @@ use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;														 
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
-
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
@@ -46,19 +45,6 @@ class plgFinderJem extends Adapter
 		$this->loadLanguage();
 	}
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function onFinderBeforeSave($context, $row, $isNew)																			 
 	{
 		// We only want to handle web links here
@@ -119,7 +105,6 @@ class plgFinderJem extends Adapter
 		return true;
 	}
 
-
 	public function onFinderAfterDelete($context, $table)
 	{
 		if ($context == 'com_jem.event')
@@ -154,14 +139,9 @@ class plgFinderJem extends Adapter
 			$this->pluginDisable($pks);
 		}
 	}
-
-																	  
- 
-
+														  
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
-
-
 
 		if ($extension == 'com_jem')
 		{
@@ -206,8 +186,6 @@ class plgFinderJem extends Adapter
 		 * configuration parameters.
 		 */
 
-
-
 		// Add the meta-author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -243,9 +221,7 @@ class plgFinderJem extends Adapter
 		//nur category und images
             $item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
         /*}*/
-		
-		
-		
+
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
 
@@ -255,17 +231,12 @@ class plgFinderJem extends Adapter
             $item->addTaxonomy('Venue', $item->venue, $item->loc_published);
         }
 
-
-
-
 		// Get content extras.
 		Helper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
 	}
-
-
 
 
 	protected function setup()
@@ -276,12 +247,6 @@ class plgFinderJem extends Adapter
 
         return true;
     }																	   
-
-
-
-
-
-
 
 
 	protected function getListQuery($sql = null)
@@ -376,8 +341,5 @@ class plgFinderJem extends Adapter
         // Store the access level to determine if it changes
         $this->old_cataccess = $this->db->loadResult();
     }																						   
-
-
-
 
 }
