@@ -1,363 +1,295 @@
 <?php
-/**
- * @version    4.2.2
- * @package    JEM
- * @subpackage JEM Finder Plugin
- * @copyright  (C) 2013-2024 joomlaeventmanager.net
- * @license    https://www.gnu.org/licenses/gpl-3.0 GNU/GPL
- */
-
-defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
-
-jimport('joomla.application.component.helper');
-
-// Load the base adapter.
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
-
-/**
- * Finder adapter for com_jem.
- *
- * @package    Joomla
- * @subpackage Finder.jem
- *
+/* @package Joomla
+ * @copyright Copyright (C) Open Source Matters. All rights reserved.
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
+ * @extension Phoca Extension
+ * @copyright Copyright (C) Jan Pavelka www.phoca.cz
+ * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
-use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;														 
 use Joomla\Component\Finder\Administrator\Indexer\Result;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
-class plgFinderJEM extends Adapter
+//defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.helper');
+require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+
+class plgFinderJem extends Adapter
+//Phocacartproduct,Phocacartcategory,Phocadownloadcategory,Phocadownload
 {
-    /**
-     * The plugin identifier.
-     *
-     * @var    string
-     *
-     */
-    protected $context = 'JEM';
-
-    /**
-     * The extension name.
-     *
-     * @var    string
-     *
-     */
-    protected $extension = 'com_jem';
-
-    /**
-     * The sublayout to use when rendering the results.
-     *
-     * @var    string
-     *
-     */
-    protected $layout = 'event';
-
-    /**
-     * The type of content that the adapter indexes.
-     *
-     * @var    string
-     *
-     */
-    protected $type_title = 'Event';
-
-    /**
-     * The table name.
-     *
-     * @var    string
-     *
-     */
-    protected $table = '#__jem_events';
-
-    /**
-     * The state field.
-     *
-     * @var    string
-     *
-     */
+	protected $context 		= 'Jemevent';
+	//Phocacartproduct,Phocacartcategory,Phocadownloadcategory,Phocadownload
+	protected $extension 	= 'com_jem';
+//	protected $layout 		= 'category';
+	protected $layout = 'event';	
+	//category, category,category,category
+	protected $type_title 	= 'Jem Event';
+	//Phoca Cart, Phoca Cart Category, Phoca Download Category,Phoca Download
+	protected $table 		= '#__jem_events';
+	//#__TABLE_products,#__TABLE_categories,#__TABLE_categories, #__TABLE_categories
     protected $state_field = 'published';
+	protected $autoloadLanguage = true;
+	//ja,nein,nein,ja,nein,ja
+	
+/*	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+*/
 
-    /**
-     * Indicates Joomla! version (2, 3, or 0).
-     *
-     * @var    integer
-     *
-     */
-    protected $jVer = 0;
 
-    /**
-     * Constructor
-     *
-     * @param   object  &$subject  The object to observe
-     * @param   array    $config   An array that holds the plugin configuration
-     *
-     */
-    public function __construct(&$subject, $config)
-    {
-        parent::__construct($subject, $config);
-        $this->loadLanguage(); // we don't use $this->autoloadLanguage available since 3.1
 
-        if (empty($this->jVer)) {
-            $this->jVer = (!empty($this->indexer) && method_exists($this->indexer, 'index')) ? 3 : 2;
-        }
-    }
 
-    /**
-     * Method to update the item link information when the item category is
-     * changed. This is fired when the item category is published or unpublished
-     * from the list view.
-     *
-     * @param   string   $extension  The extension whose category has been updated.
-     * @param   array    $pks        A list of primary key ids of the content that has changed state.
-     * @param   integer  $value      The value of the state that the content has been changed to.
-     *
-     * @return  void
-     *
-     */
-    public function onFinderCategoryChangeState($extension, $pks, $value)
-    {
-        // Make sure we're handling com_jem categories
-        if ($extension == 'com_jem') {
-            $this->categoryStateChange($pks, $value);
-        }
-    }
 
-    /**
-     * Method to remove the link information for items that have been deleted.
-     *
-     * @param   string  $context  The context of the action being performed.
-     * @param   JTable  $table    A JTable object containing the record to be deleted
-     *
-     * @return  boolean  True on success.
-     *
-     * @throws  Exception on database error.
-     * @since   2.5
-     */
-    public function onFinderAfterDelete($context, $table)
-    {
-        if ($context == 'com_jem.event') {
-            $id = $table->id;
-        } elseif ($context == 'com_finder.index') {
-            $id = $table->link_id;
-        } else {
-            return true;
-        }
 
-        // Remove item from the index.
-        return $this->remove($id);
-    }
 
-    /**
-     * Method to determine if the access level of an item changed.
-     *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   JTable   $row      A JTable object
-     * @param   boolean  $isNew    If the content has just been created
-     *
-     * @return  boolean  True on success.
-     *
-     * @throws  Exception on database error.
-     */
-    public function onFinderAfterSave($context, $row, $isNew)
-    {
-        // We only want to handle events here
-        if ($context == 'com_jem.event' || $context == 'com_jem.editevent') {
-            // Check if the access levels are different
-            if (!$isNew && $this->old_access != $row->access) {
-                // Process the change.
-                $this->itemAccessChange($row);
-            }
 
-            // Reindex the item
-            $this->reindex($row->id);
-        }
 
-        // Check for access changes in the category
-        if ($context == 'com_jem.category') {
-            // Check if the access levels are different
-            if (!$isNew && $this->old_cataccess != $row->access) {
-                $this->categoryAccessChange($row);
-            }
-        }
 
-        return true;
-    }
 
-    /**
-     * Method to reindex the link information for an item that has been saved.
-     * This event is fired before the data is actually saved so we are going
-     * to queue the item to be indexed later.
-     *
-     * @param   string   $context  The context of the content passed to the plugin.
-     * @param   JTable   $row      A JTable object
-     * @param   boolean  $isNew    If the content is just about to be created
-     *
-     * @return  boolean  True on success.
-     *
-     * @throws  Exception on database error.
-     */
-    public function onFinderBeforeSave($context, $row, $isNew)
-    {
-        // We only want to handle articles here
-        if ($context == 'com_jem.event' || $context == 'com_jem.editevent') {
-            // Query the database for the old access level if the item isn't new
-            if (!$isNew) {
-                $this->checkItemAccess($row);
-            }
-        }
-        // Check for access levels from the category
-        if ($context == 'com_jem.category') {
-            // Query the database for the old access level if the item isn't new
-            if (!$isNew) {
-                $this->checkCategoryAccess($row);
-            }
-        }
 
-        return true;
-    }
 
-    /**
-     * Method to update the link information for items that have been changed
-     * from outside the edit screen. This is fired when the item is published,
-     * unpublished, archived, or unarchived from the list view.
-     *
-     * @param   string   $context  The context for the content passed to the plugin.
-     * @param   array    $pks      A list of primary key ids of the content that has changed state.
-     * @param   integer  $value    The value of the state that the content has been changed to.
-     *
-     * @return  void
-     *
-     */
-    public function onFinderChangeState($context, $pks, $value)
-    {
-        // We only want to handle articles here
-        if ($context == 'com_jem.event' || $context == 'com_jem.editevent') {
-            $this->itemStateChange($pks, $value);
-        }
-        // Handle when the plugin is disabled
-        if ($context == 'com_plugins.plugin' && $value === 0) {
-            $this->pluginDisable($pks);
-        }
-    }
+	public function onFinderBeforeSave($context, $row, $isNew)																			 
+	{
+		// We only want to handle web links here
+		if ($context == 'com_jem.event' || $context == 'com_jem.editevent' )
+		//phocacartproduct,phocacartcat,phocadownloadcat,phocadownloadfile,phocagallerycat, phocagalleryimg
+		//product,category,category,file,category,img
+		{
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{	
+				$this->checkItemAccess($row);
+			}
+		}
 
-    /**
-     * Method to index an item. The item must be a FinderIndexerResult object.
-     *
-     * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
-     * @param   string               $format  The item format
-     *
-     * @return  void
-     *
-     * @throws  Exception on database error.
-     */
-    // protected function index(FinderIndexerResult $item, $format = 'html')
-    protected function index(Result $item)
-    {
-        // Check if the extension is enabled
-        if (ComponentHelper::isEnabled($this->extension) == false) {
-            return;
-        }
+		// Check for access levels from the category
+		if ($context == 'com_jem.category')
+		//phocacartcategory,phocacartcat,phocadownloadcat,phocadownloadcat,phocagallerycat,phocagallerycat
+		{
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$this->checkCategoryAccess($row);
+			}
+		}
+		return true;
+	}
 
-        $item->setLanguage();
 
-        // Initialize the item parameters.
-        $registry = new JRegistry;
-        $registry->loadString($item->params);
-        $item->params = ComponentHelper::getParams('com_jem', true);
-        $item->params->merge($registry);
+	public function onFinderAfterSave($context, $row, $isNew)
+	{
+		// We only want to handle web links here. We need to handle front end and back end editing.
+		if ($context == 'com_jem.event' || $context == 'com_jem.editevent' )
+		//phocacartcatproduct,phocacartcat,phocadownloadcat,phocadownloadfile,phocagallerycat
+		//product,category,category,file,category.img
+		{
+			// Check if the access levels are different
+			if (!$isNew && $this->old_access != $row->access)
+			//if (isset($row->access) && !$isNew && $this->old_access != $row->access)
+	
+			{
+				// Process the change.
+				$this->itemAccessChange($row);
+			}
+			// Reindex the item
+			$this->reindex($row->id);
+		}
 
-        $registry = new Registry;
-        $registry->loadString($item->metadata);
-        $item->metadata = $registry;
+		// Check for access changes in the category
+		if ($context == 'com_jem.category')
+		//phocacartcategory,phocacartcat,phocadownloadcat,phocadownloadcat,phocagallerycat,phocagallerycat
+		{
+			// Check if the access levels are different
+			if (!$isNew && $this->old_cataccess != $row->access)
+			{
+				$this->categoryAccessChange($row);
+			}
+		}
+		return true;
+	}
+
+
+	public function onFinderAfterDelete($context, $table)
+	{
+		if ($context == 'com_jem.event')
+		//phocacartproduct,phocacartcat,phocadownloadcat,phocadownloadfile,phocagallerycat,phocagalleryimg
+		{										  
+			$id = $table->id;
+		}
+		elseif ($context == 'com_finder.index')
+		{
+			$id = $table->link_id;
+		}
+		else
+		{
+			return true;
+		}	
+		// Remove the items.
+		return $this->remove($id);
+	}
+
+	public function onFinderChangeState($context, $pks, $value)
+	{
+		// We only want to handle web links here
+		if ($context == 'com_jem.event' || $context == 'com_jem.editevent' )
+		//phocacartproduct,phocacartcat,phocadownloadcat,phocadownloadfile,phocagallerycat,phocagalleryimg
+		//product,category,category,file,category,img
+		{
+			$this->itemStateChange($pks, $value);
+			
+		// Handle when the plugin is disabled
+		if ($context == 'com_plugins.plugin' && $value === 0)
+		{
+			$this->pluginDisable($pks);
+		}
+	}
+
+																	  
+ 
+
+	public function onFinderCategoryChangeState($extension, $pks, $value)
+	{
+
+
+
+		if ($extension == 'com_jem')
+		{
+			$this->categoryStateChange($pks, $value);
+		}
+	}
+
+	protected function index(Result $item, $format = 'html')								  
+	{
+		// Check if the extension is enabled
+		if (ComponentHelper::isEnabled($this->extension) == false)
+		
+			return;
+		}
+
+		$item->setLanguage();
+
+		// Initialize the item parameters.
+		$registry = new Registry;
+		$registry->loadString($item->params);
+		$item->params = ComponentHelper::getParams('com_jem', true);
+		$item->params->merge($registry);
+
+		$registry = new Registry;
+		$registry->loadString($item->metadata);
+		$item->metadata = $registry;
 
         // Trigger the onContentPrepare event.
         $item->summary = Helper::prepareContent($item->summary, $item->params);
-        $item->body    = Helper::prepareContent($item->fulltext, $item->params);
+        $item->body    = Helper::prepareContent($item->fulltext, $item->params);																				 
 
-        // Build the necessary route and path information.
-        $item->url   = $this->getURL($item->id, $this->extension, $this->layout);
+		// Build the necessary route and path information.
+		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		//$item->route = JemHelperRoute::getEventRoute($item->id, $item->alias, $item->language);
         $item->route = JEMHelperRoute::getEventRoute($item->slug, $item->catslug);
-        // $item->path = Helper::getContentPath($item->route);
+		//getItemRoute,getCategoryRoute,getCategoryRoute,getFileRoute,getImageRoute
+		//$item->id,$item->categoryid, $item->categoryalias
+		//--
+		//$item->path = Helper::getContentPath($item->route);
+		/*
+		 * Add the meta-data processing instructions based on the newsfeeds
+		 * configuration parameters.
+		 */
 
-        // Get the menu title if it exists.
-        $title = $this->getItemMenuTitle($item->url);
 
-        // Adjust the title if necessary.
-        if (!empty($title) && $this->params->get('use_menu_title', true)) {
-            $item->title = $title;
-        }
-        $item->metaauthor = !isset($item->metaauthor) ? '' : $item->metaauthor;
-        // Add the meta-author.
-        $item->metaauthor = $item->metadata->get('author');
 
-        // Add the meta-data processing instructions.
-        // TODO:
-// 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'meta_description');
+		// Add the meta-author.
+		$item->metaauthor = $item->metadata->get('author');
+
+		// Handle the link to the meta-data.
+
+		$item->addInstruction(Indexer::META_CONTEXT, 'link');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(Indexer::META_CONTEXT, 'author');
+		$item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
 
         // Translate the state. Articles should only be published if the category is published.
         $item->state = $this->translateState($item->state, $item->cat_state);
 
-        // Add the type taxonomy data.
-        $item->addTaxonomy('Type', 'Event');
 
+
+		// Add the type taxonomy data.
+		$item->addTaxonomy('Type', '[Jem Event]');
+		//Phoca Cart,Phoca Cart Category,Phoca Download Category,Phoca Download
         // Add the author taxonomy data.
-        if (!empty($item->author) || !empty($item->created_by_alias)) {
+        if (!empty($item->author) || !empty($item->created_by_alias)) 
+		{
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
         }
 
-        if (!$item->Category) {
+        if (!$item->Category) 
+		{
             return true;
-        }
-
-        // Add the category taxonomy data.
-        $item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
-
-        // Add the language taxonomy data.
-        $item->addTaxonomy('Language', $item->language);
+        }																	   
+		// Add the category taxonomy data.
+		//if (isset($item->category) && $item->category != '') {
+		//nur category und images
+            $item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+        /*}*/
+		
+		
+		
+		// Add the language taxonomy data.
+		$item->addTaxonomy('Language', $item->language);
 
         // Add the venue taxonomy data.
-        if (!empty($item->venue)) {
+        if (!empty($item->venue)) 
+		{
             $item->addTaxonomy('Venue', $item->venue, $item->loc_published);
         }
 
-        // Get content extras.
-        Helper::getContentExtras($item);
 
-        // Index the item.
 
-        $this->indexer->index($item);
-    }
 
-    /**
-     * Method to setup the indexer to be run.
-     *
-     * @return  boolean  True on success.
-     *
-     */
-    protected function setup()
-    {
+		// Get content extras.
+		Helper::getContentExtras($item);
+
+		// Index the item.
+		$this->indexer->index($item);
+	}
+
+
+
+
+	protected function setup()
+	{
+
         // Load dependent classes.
         include_once JPATH_SITE . '/components/com_jem/helpers/route.php';
 
         return true;
-    }
+    }																	   
 
-    /**
-     * Method to get the SQL query used to retrieve the list of events.
-     *
-     * @param   mixed  $sql  A JDatabaseQuery object or null.
-     *
-     * @return  JDatabaseQuery  A database object.
-     *
-     */
-    protected function getListQuery($sql = null)
-    {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+
+
+
+
+
+
+
+	protected function getListQuery($sql = null)
+	{
+		//$db = Factory::getContainer()->get('DatabaseDriver');
+		$db = Factory::getDbo();
         // Check if we can use the supplied SQL query.
-        $sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
+        $sql = $sql instanceof DatabaseQuery ? $sql : $db->getQuery(true);
 
 // 		$sql->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body');
 // 		$sql->select('a.state, a.catid, a.created AS start_date, a.created_by');
@@ -403,18 +335,20 @@ class plgFinderJEM extends Adapter
         $case_when_venue_alias .= $l_id . ' END as venueslug';
         $sql->select($case_when_venue_alias);
 
+
         $sql->from($this->table . ' AS a');
         $sql->join('LEFT', '#__jem_venues AS l ON l.id = a.locid');
         $sql->join('LEFT', '#__jem_countries AS ct ON ct.iso2 = l.country');
         $sql->join('LEFT', '#__jem_cats_event_relations AS cer ON cer.itemid = a.id');
+			  
+
         $sql->join('LEFT', '#__jem_categories AS c ON cer.catid = c.id');
 
         return $sql;
-    }
-
+    }																							
     protected function getStateQuery()
     {
-        $db = Factory::getContainer()->get('DatabaseDriver');
+		$db = Factory::getDbo();
         // Check if we can use the supplied SQL query.
         $sql = $db->getQuery(true);
 
@@ -431,15 +365,6 @@ class plgFinderJEM extends Adapter
 
         return $sql;
     }
-
-    /**
-     * Method to check the existing access level for categories
-     *
-     * @param   JTable  $row  A JTable object
-     *
-     * @return  void
-     *
-     */
     protected function checkCategoryAccess($row)
     {
         $query = $this->db->getQuery(true);
@@ -450,5 +375,9 @@ class plgFinderJEM extends Adapter
 
         // Store the access level to determine if it changes
         $this->old_cataccess = $this->db->loadResult();
-    }
+    }																						   
+
+
+
+
 }
